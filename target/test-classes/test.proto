@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+enum Sex{
+  // code: 0
+  // zh: 男
+  // en: male
+  SEX_MALE = 0;
+  // zh: 女
+  // en: female
+  SEX_FEMALE = 1;
+  // zh: 未知
+  // en: unknown
+  SEX_UNKNOWN = 2;
+}
+
+message M2{
+  int32 f1 = 1;
+  int32 f2 = 2;
+  int32 f3 = 3;
+}
+
+enum ResultCode {
+  // zh:成功
+  // en:success
+  SUCCESS = 0;
+  // zh:失败
+  // en:failed
+  FAILED = 1;
+
+  // zh:参数错误
+  // en:parameters error
+  COMMON_PARAM_ERROR = 3;
+  // zh:账号为空
+  // en:account is empty
+  COMMON_ACCOUNT_EMPTY = 4;
+  // zh:签名错误
+  // en:signature error
+  COMMON_SIGNATURE_ERROR = 5;
+  // zh:个人账户到期
+  // en:individual account expired
+  COMMON_INDIVIDUAL_EXPIRED = 6;
+}
