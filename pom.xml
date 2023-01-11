@@ -6,7 +6,7 @@
 
     <groupId>com.github.zzzj1233</groupId>
     <artifactId>i18n-maven-plugin</artifactId>
-    <version>1.0-RELEASE</version>
+    <version>1.1-RELEASE</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
@@ -60,5 +60,13 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>easyview-repository</id>
+            <layout>default</layout>
+            <url>http://172.16.50.230:65533/down/</url>
+        </repository>
+    </distributionManagement>
 
 </project>

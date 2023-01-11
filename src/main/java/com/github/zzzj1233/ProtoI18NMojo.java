@@ -280,10 +280,10 @@ public class ProtoI18NMojo extends AbstractMojo {
                 }
             }
 
-            if (translation && StringUtils.isEmpty(i18N.getZhTC()) && StringUtils.isNotEmpty(i18N
-                    .getZhCN())) {
+            if (translation && StringUtils.isEmpty(i18N.getZhTC()) && StringUtils.isNotEmpty(i18N.getZhCN())) {
 
                 // 简体转繁体
+                i18N.setZhTC(ChineseUtil.convert(i18N.getZhCN(), ChineseUtil.TRADITIONAL));
             }
 
             i18NS.add(i18N);
@@ -302,9 +302,9 @@ public class ProtoI18NMojo extends AbstractMojo {
         // 5. append to I18N file
         try {
             for (I18N i18N : i18NS) {
-                setProperty(this.ZHCNProperties, i18N.getEnumValue(), i18N.getZhCN(), true);
-                setProperty(this.ZHTCProperties, i18N.getEnumValue(), i18N.getZhTC(), true);
-                setProperty(this.ENUSProperties, i18N.getEnumValue(), i18N.getEnUS(), false);
+                setProperty(this.ZHCNProperties, i18N.getEnumValue(), i18N.getZhCN());
+                setProperty(this.ZHTCProperties, i18N.getEnumValue(), i18N.getZhTC());
+                setProperty(this.ENUSProperties, i18N.getEnumValue(), i18N.getEnUS());
             }
             this.ZHCNProperties.store();
             this.ZHTCProperties.store();
@@ -321,15 +321,9 @@ public class ProtoI18NMojo extends AbstractMojo {
         getLog().info("Append proto comment to I18N file successful");
     }
 
-    void setProperty(PropertiesFile propertiesFile, int enumValue, String message, boolean useUnicode) {
-        String value = message;
-
-        if (useUnicode) {
-            value = unicode2String(message);
-        }
-
-        if (StringUtils.isNotBlank(value)) {
-            propertiesFile.setProperty(i18nKeyPrefix + enumValue, value);
+    void setProperty(PropertiesFile propertiesFile, int enumValue, String message) {
+        if (StringUtils.isNotBlank(message)) {
+            propertiesFile.setProperty(i18nKeyPrefix + enumValue, message);
         }
     }
 
@@ -493,27 +487,6 @@ public class ProtoI18NMojo extends AbstractMojo {
 
     public void setOverlap(Boolean overlap) {
         this.overlap = overlap;
-    }
-
-
-    public static String unicode2String(String input) {
-        if (StringUtils.isBlank(input)) {
-            return null;
-        }
-
-        char[] chars = input.trim().toCharArray();
-
-        StringBuilder builder = new StringBuilder(chars.length);
-
-        for (char c : chars) {
-            if (c >= 128) {
-                builder.append("\\u").append(String.format("%04X", (int) c));
-            } else {
-                builder.append(c);
-            }
-        }
-
-        return builder.toString();
     }
 
 }
